@@ -25,3 +25,4 @@ Protótipo acadêmico de comunicação inclusiva para ambiente hospitalar, pensa
 
 ## Observação importante
 Este é um protótipo acadêmico e não deve ser apresentado como sistema clínico real. Em uma implantação hospitalar verdadeira seriam necessários, entre outros pontos, segurança, autenticação, LGPD, integração com fluxos institucionais e profissionais habilitados para interpretação.
+Projeto acadêmico atualizado em 05/10/2026.
