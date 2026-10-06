@@ -34,3 +34,7 @@ Esta versão amplia o protótipo para contemplar usuários/acompanhantes e colab
 ## Versão
 
 Versão atual: 2.1 — inclui identificação acadêmica no rodapé do aplicativo.
+
+
+## Atualização de cache (2.2)
+A versão 2.2 usa atualização imediata do service worker e estratégia network-first para impedir que versões antigas permaneçam presas no cache do navegador após uma nova publicação no GitHub Pages.
