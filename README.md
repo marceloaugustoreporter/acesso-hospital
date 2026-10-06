@@ -29,3 +29,8 @@ Este é um protótipo acadêmico e não deve ser apresentado como sistema clíni
 
 ## Versão 2
 Esta versão amplia o protótipo para contemplar usuários/acompanhantes e colaboradores, atendimento adaptado para necessidades sensoriais, modo simples, idiomas e roteamento demonstrativo de demandas para setores responsáveis.
+
+
+## Versão
+
+Versão atual: 2.1 — inclui identificação acadêmica no rodapé do aplicativo.

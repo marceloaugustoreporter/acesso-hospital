@@ -190,3 +190,22 @@ body.high-contrast .profile-btn[aria-pressed="true"] { background: #ffea00; colo
 @media (max-width: 760px) {
   .profile-options { display: grid; grid-template-columns: 1fr; }
 }
+
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+  text-align: center;
+  padding: 1.15rem 1rem 1.35rem;
+  font-size: .82rem;
+  line-height: 1.45;
+}
+.site-footer p { margin: .18rem 0; }
+.site-footer strong { color: var(--text); }
+body.high-contrast .site-footer { border-color: #fff; }
+body.simple-mode .site-footer { font-size: .9rem; }
+
+@media (max-width: 760px) {
+  .site-footer { padding-inline: 1.25rem; }
+}
