@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0b5d66" />
+  <meta name="description" content="Protótipo acadêmico de comunicação inclusiva para ambiente hospitalar." />
+  <title>Acesso+ Hospital</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="topbar" role="banner">
+    <div class="brand-wrap">
+      <div class="brand-mark" aria-hidden="true">A+</div>
+      <div>
+        <h1>Acesso+ Hospital</h1>
+        <p>Comunicação que inclui</p>
+      </div>
+    </div>
+
+    <div class="access-tools" aria-label="Recursos de acessibilidade">
+      <button id="fontDown" type="button" aria-label="Diminuir tamanho do texto">A−</button>
+      <button id="fontUp" type="button" aria-label="Aumentar tamanho do texto">A+</button>
+      <button id="contrastBtn" type="button" aria-pressed="false">◐ Contraste</button>
+      <button id="speakBtn" type="button">🔊 Ouvir</button>
+      <button id="librasBtn" type="button">🤟 Libras</button>
+    </div>
+  </header>
+
+  <div class="academic-note" role="note">
+    Protótipo acadêmico demonstrativo. Não substitui atendimento profissional ou interpretação especializada em situações clínicas.
+  </div>
+
+  <main id="conteudo" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="eyebrow">Atendimento acessível</p>
+      <h2 id="hero-title">Como podemos ajudar?</h2>
+      <p>Escolha a opção que mais se aproxima do que você precisa agora.</p>
+    </section>
+
+    <section class="action-grid" aria-label="Ações principais">
+      <button class="action-card" data-view="comunicar" type="button">
+        <span class="icon" aria-hidden="true">🤟</span>
+        <span><strong>Preciso me comunicar</strong><small>Libras, texto, áudio ou outro idioma</small></span>
+      </button>
+
+      <button class="action-card" data-view="barreira" type="button">
+        <span class="icon" aria-hidden="true">♿</span>
+        <span><strong>Encontrei uma barreira</strong><small>Relate uma dificuldade de acesso ou comunicação</small></span>
+      </button>
+
+      <button class="action-card" data-view="informacoes" type="button">
+        <span class="icon" aria-hidden="true">🔊</span>
+        <span><strong>Informações acessíveis</strong><small>Orientações em linguagem simples e formatos acessíveis</small></span>
+      </button>
+
+      <button class="action-card" data-view="acompanhar" type="button">
+        <span class="icon" aria-hidden="true">✅</span>
+        <span><strong>Acompanhar solicitação</strong><small>Consulte o andamento pelo protocolo</small></span>
+      </button>
+    </section>
+
+    <section class="quick-needs" aria-labelledby="needs-title">
+      <h2 id="needs-title">Para que você precisa de ajuda?</h2>
+      <div class="chips">
+        <button type="button" class="chip" data-quick="Libras">🤟 Atendimento em Libras</button>
+        <button type="button" class="chip" data-quick="Baixa visão">👁️ Dificuldade para enxergar</button>
+        <button type="button" class="chip" data-quick="Leitura simples">🧠 Comunicação mais simples</button>
+        <button type="button" class="chip" data-quick="Outro idioma">🌎 Outro idioma</button>
+        <button type="button" class="chip" data-quick="Barreira física">♿ Barreira física</button>
+        <button type="button" class="chip" data-quick="Outra necessidade">💬 Outra necessidade</button>
+      </div>
+    </section>
+
+    <section id="panel" class="panel" aria-live="polite" hidden></section>
+  </main>
+
+  <dialog id="librasDialog" aria-labelledby="libras-title">
+    <div class="dialog-header">
+      <h2 id="libras-title">Atendimento em Libras</h2>
+      <button id="closeLibras" type="button" aria-label="Fechar">✕</button>
+    </div>
+    <p>Este protótipo demonstra como o hospital poderia oferecer conteúdo em Libras e acionar profissional habilitado.</p>
+    <div class="video-placeholder" role="img" aria-label="Espaço reservado para vídeo em Libras">
+      <span aria-hidden="true">🤟</span>
+      <strong>Vídeo em Libras</strong>
+      <small>Inserir vídeo institucional acessível nesta área</small>
+    </div>
+    <button id="requestInterpreter" class="primary" type="button">Solicitar intérprete</button>
+  </dialog>
+
+  <template id="tpl-comunicar">
+    <div class="panel-header"><div><p class="eyebrow">Comunicação</p><h2>Preciso me comunicar</h2></div><button class="close-panel" type="button">Fechar</button></div>
+    <form id="communicationForm" class="form-stack">
+      <fieldset>
+        <legend>Qual recurso você precisa?</legend>
+        <label><input type="radio" name="recurso" value="Libras" required> 🤟 Libras</label>
+        <label><input type="radio" name="recurso" value="Outro idioma"> 🌎 Outro idioma</label>
+        <label><input type="radio" name="recurso" value="Comunicação por texto"> 💬 Comunicação por texto</label>
+        <label><input type="radio" name="recurso" value="Áudio"> 🔊 Áudio</label>
+        <label><input type="radio" name="recurso" value="Outro recurso"> ➕ Outro recurso</label>
+      </fieldset>
+      <label for="local">Onde você está?</label>
+      <select id="local" name="local" required>
+        <option value="">Selecione</option>
+        <option>Pronto Atendimento</option>
+        <option>Internação</option>
+        <option>Ambulatório</option>
+        <option>Exames</option>
+        <option>Recepção</option>
+        <option>Outro setor</option>
+      </select>
+      <label for="obsCom">Deseja acrescentar alguma informação?</label>
+      <textarea id="obsCom" name="observacao" rows="4" placeholder="Opcional"></textarea>
+      <button class="primary" type="submit">Solicitar apoio</button>
+    </form>
+  </template>
+
+  <template id="tpl-barreira">
+    <div class="panel-header"><div><p class="eyebrow">Acessibilidade</p><h2>Encontrei uma barreira</h2></div><button class="close-panel" type="button">Fechar</button></div>
+    <form id="barrierForm" class="form-stack">
+      <label for="tipoBarreira">Que tipo de dificuldade você encontrou?</label>
+      <select id="tipoBarreira" name="tipo" required>
+        <option value="">Selecione</option>
+        <option>Comunicação</option>
+        <option>Acesso físico</option>
+        <option>Informação</option>
+        <option>Tecnologia</option>
+        <option>Atendimento</option>
+        <option>Outra</option>
+      </select>
+      <label for="localBarreira">Onde isso aconteceu?</label>
+      <input id="localBarreira" name="local" type="text" placeholder="Ex.: recepção, corredor, laboratório" required>
+      <label for="relato">Conte o que aconteceu</label>
+      <textarea id="relato" name="relato" rows="5" required placeholder="Descreva de forma simples"></textarea>
+      <button class="secondary" id="voiceDemo" type="button">🎙️ Gravar áudio (demonstração)</button>
+      <button class="primary" type="submit">Enviar relato</button>
+    </form>
+  </template>
+
+  <template id="tpl-informacoes">
+    <div class="panel-header"><div><p class="eyebrow">Informação acessível</p><h2>Orientações do hospital</h2></div><button class="close-panel" type="button">Fechar</button></div>
+    <div class="info-list">
+      <article><h3>Como pedir ajuda</h3><p>Procure a recepção ou use este aplicativo. Informe qual recurso você precisa. A equipe encaminhará sua solicitação ao setor responsável.</p></article>
+      <article><h3>Atendimento em Libras</h3><p>O hospital pode acionar profissional habilitado ou serviço de interpretação remota, conforme disponibilidade prevista no fluxo institucional.</p></article>
+      <article><h3>Baixa visão ou cegueira</h3><p>Use os botões de aumento de texto, contraste e leitura em voz alta. O conteúdo foi estruturado para funcionar com leitores de tela.</p></article>
+      <article><h3>Outro idioma</h3><p>Informe o idioma necessário para que a equipe identifique apoio disponível. Informações clínicas devem ser mediadas com segurança.</p></article>
+    </div>
+  </template>
+
+  <template id="tpl-acompanhar">
+    <div class="panel-header"><div><p class="eyebrow">Acompanhamento</p><h2>Consultar solicitação</h2></div><button class="close-panel" type="button">Fechar</button></div>
+    <form id="trackingForm" class="form-stack">
+      <label for="protocolo">Digite o protocolo</label>
+      <input id="protocolo" name="protocolo" type="text" placeholder="Ex.: AH-2026-0001" required>
+      <button class="primary" type="submit">Consultar</button>
+    </form>
+    <div id="trackingResult" class="result" aria-live="polite"></div>
+  </template>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
