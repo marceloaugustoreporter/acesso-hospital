@@ -26,6 +26,7 @@
       <button id="fontDown" type="button" aria-label="Diminuir tamanho do texto">A−</button>
       <button id="fontUp" type="button" aria-label="Aumentar tamanho do texto">A+</button>
       <button id="contrastBtn" type="button" aria-pressed="false">◐ Contraste</button>
+      <button id="simpleBtn" type="button" aria-pressed="false">☰ Modo simples</button>
       <button id="speakBtn" type="button">🔊 Ouvir</button>
       <button id="librasBtn" type="button">🤟 Libras</button>
     </div>
@@ -40,12 +41,24 @@
       <p class="eyebrow">Atendimento acessível</p>
       <h2 id="hero-title">Como podemos ajudar?</h2>
       <p>Escolha a opção que mais se aproxima do que você precisa agora.</p>
+      <div class="profile-box" aria-labelledby="profile-title">
+        <h3 id="profile-title">Quem está usando?</h3>
+        <div class="profile-options">
+          <button type="button" class="profile-btn" data-profile="Usuário ou acompanhante" aria-pressed="true">👤 Usuário ou acompanhante</button>
+          <button type="button" class="profile-btn" data-profile="Colaborador ou profissional" aria-pressed="false">🏥 Colaborador ou profissional</button>
+        </div>
+      </div>
     </section>
 
     <section class="action-grid" aria-label="Ações principais">
       <button class="action-card" data-view="comunicar" type="button">
         <span class="icon" aria-hidden="true">🤟</span>
         <span><strong>Preciso me comunicar</strong><small>Libras, texto, áudio ou outro idioma</small></span>
+      </button>
+
+      <button class="action-card" data-view="adaptado" type="button">
+        <span class="icon" aria-hidden="true">🤝</span>
+        <span><strong>Preciso de atendimento adaptado</strong><small>Necessidades sensoriais, comunicação objetiva e outras adaptações</small></span>
       </button>
 
       <button class="action-card" data-view="barreira" type="button">
@@ -70,6 +83,7 @@
         <button type="button" class="chip" data-quick="Libras">🤟 Atendimento em Libras</button>
         <button type="button" class="chip" data-quick="Baixa visão">👁️ Dificuldade para enxergar</button>
         <button type="button" class="chip" data-quick="Leitura simples">🧠 Comunicação mais simples</button>
+        <button type="button" class="chip" data-quick="Atendimento adaptado">🤝 Necessidades sensoriais / TEA</button>
         <button type="button" class="chip" data-quick="Outro idioma">🌎 Outro idioma</button>
         <button type="button" class="chip" data-quick="Barreira física">♿ Barreira física</button>
         <button type="button" class="chip" data-quick="Outra necessidade">💬 Outra necessidade</button>
@@ -104,6 +118,14 @@
         <label><input type="radio" name="recurso" value="Áudio"> 🔊 Áudio</label>
         <label><input type="radio" name="recurso" value="Outro recurso"> ➕ Outro recurso</label>
       </fieldset>
+      <label for="idioma">Se escolheu outro idioma, qual?</label>
+      <select id="idioma" name="idioma">
+        <option value="">Não se aplica / selecione</option>
+        <option>Inglês</option>
+        <option>Espanhol</option>
+        <option>Francês</option>
+        <option>Outro idioma</option>
+      </select>
       <label for="local">Onde você está?</label>
       <select id="local" name="local" required>
         <option value="">Selecione</option>
@@ -117,6 +139,35 @@
       <label for="obsCom">Deseja acrescentar alguma informação?</label>
       <textarea id="obsCom" name="observacao" rows="4" placeholder="Opcional"></textarea>
       <button class="primary" type="submit">Solicitar apoio</button>
+    </form>
+  </template>
+
+  <template id="tpl-adaptado">
+    <div class="panel-header"><div><p class="eyebrow">Atendimento inclusivo</p><h2>Preciso de atendimento adaptado</h2></div><button class="close-panel" type="button">Fechar</button></div>
+    <form id="adaptedForm" class="form-stack">
+      <fieldset>
+        <legend>O que pode ajudar no seu atendimento?</legend>
+        <label><input type="checkbox" name="necessidade" value="Ambiente com menos ruído"> Ambiente com menos ruído</label>
+        <label><input type="checkbox" name="necessidade" value="Menos estímulos luminosos"> Menos estímulos luminosos</label>
+        <label><input type="checkbox" name="necessidade" value="Comunicação objetiva e direta"> Comunicação objetiva e direta</label>
+        <label><input type="checkbox" name="necessidade" value="Explicação antecipada das etapas"> Explicação antecipada das etapas</label>
+        <label><input type="checkbox" name="necessidade" value="Mais tempo para responder"> Preciso de mais tempo para responder</label>
+        <label><input type="checkbox" name="necessidade" value="Comunicação visual"> Prefiro comunicação visual</label>
+        <label><input type="checkbox" name="necessidade" value="Outra adaptação"> Outra necessidade</label>
+      </fieldset>
+      <label for="localAdaptado">Onde você está?</label>
+      <select id="localAdaptado" name="local" required>
+        <option value="">Selecione</option>
+        <option>Pronto Atendimento</option>
+        <option>Internação</option>
+        <option>Ambulatório</option>
+        <option>Exames</option>
+        <option>Recepção</option>
+        <option>Outro setor</option>
+      </select>
+      <label for="obsAdaptado">Deseja explicar algo à equipe?</label>
+      <textarea id="obsAdaptado" name="observacao" rows="4" placeholder="Opcional"></textarea>
+      <button class="primary" type="submit">Registrar necessidade</button>
     </form>
   </template>
 
@@ -149,6 +200,8 @@
       <article><h3>Atendimento em Libras</h3><p>O hospital pode acionar profissional habilitado ou serviço de interpretação remota, conforme disponibilidade prevista no fluxo institucional.</p></article>
       <article><h3>Baixa visão ou cegueira</h3><p>Use os botões de aumento de texto, contraste e leitura em voz alta. O conteúdo foi estruturado para funcionar com leitores de tela.</p></article>
       <article><h3>Outro idioma</h3><p>Informe o idioma necessário para que a equipe identifique apoio disponível. Informações clínicas devem ser mediadas com segurança.</p></article>
+      <article><h3>Atendimento adaptado</h3><p>Informe necessidades sensoriais ou de comunicação, como menos ruído, menos estímulos luminosos, comunicação objetiva, apoio visual ou mais tempo para responder.</p></article>
+      <article><h3>Pessoas idosas e autonomia digital</h3><p>Use o Modo simples para reduzir elementos da tela, ampliar os botões e facilitar a navegação. O atendimento presencial continua disponível quando necessário.</p></article>
     </div>
   </template>
 

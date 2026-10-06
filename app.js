@@ -1,6 +1,7 @@
 const panel = document.getElementById('panel');
 const templates = {
   comunicar: document.getElementById('tpl-comunicar'),
+  adaptado: document.getElementById('tpl-adaptado'),
   barreira: document.getElementById('tpl-barreira'),
   informacoes: document.getElementById('tpl-informacoes'),
   acompanhar: document.getElementById('tpl-acompanhar')
@@ -8,12 +9,19 @@ const templates = {
 
 let fontScale = Number(localStorage.getItem('fontScale') || '1');
 let contrast = localStorage.getItem('highContrast') === 'true';
+let simpleMode = localStorage.getItem('simpleMode') === 'true';
+let selectedProfile = localStorage.getItem('selectedProfile') || 'Usuário ou acompanhante';
 applyPreferences();
 
 function applyPreferences() {
   document.documentElement.style.setProperty('--font-scale', fontScale.toFixed(2));
   document.body.classList.toggle('high-contrast', contrast);
+  document.body.classList.toggle('simple-mode', simpleMode);
   document.getElementById('contrastBtn').setAttribute('aria-pressed', String(contrast));
+  document.getElementById('simpleBtn').setAttribute('aria-pressed', String(simpleMode));
+  document.querySelectorAll('.profile-btn').forEach(btn => {
+    btn.setAttribute('aria-pressed', String(btn.dataset.profile === selectedProfile));
+  });
 }
 
 function openPanel(view) {
@@ -38,6 +46,17 @@ function nextProtocol() {
   return `AH-2026-${String(n).padStart(4, '0')}`;
 }
 
+function routeSector(tipo, recurso = '') {
+  const text = (tipo + ' ' + recurso).toLowerCase();
+  if (text.includes('acesso físico') || text.includes('barreira física')) return 'Engenharia Predial';
+  if (text.includes('tecnologia')) return 'Tecnologia da Informação';
+  if (text.includes('libras')) return 'Rede de apoio em Libras / Atendimento';
+  if (text.includes('idioma')) return 'Rede de apoio linguístico / Atendimento';
+  if (text.includes('adaptado') || text.includes('ruído') || text.includes('luminos') || text.includes('sensorial')) return 'Equipe assistencial / Acolhimento';
+  if (text.includes('informação') || text.includes('comunicação')) return 'Comunicação / Atendimento';
+  return 'Núcleo de Acessibilidade / setor responsável';
+}
+
 function saveRequest(data) {
   const requests = JSON.parse(localStorage.getItem('requests') || '[]');
   requests.push(data);
@@ -51,18 +70,53 @@ function wirePanel(view) {
     document.getElementById('communicationForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const fd = new FormData(e.currentTarget);
+      const recurso = fd.get('recurso');
+      const idioma = fd.get('idioma') || '';
+      if (recurso === 'Outro idioma' && !idioma) {
+        alert('Informe o idioma necessário.');
+        return;
+      }
       const protocolo = nextProtocol();
       const item = {
         protocolo,
         tipo: 'Apoio de comunicação',
-        recurso: fd.get('recurso'),
+        recurso: recurso === 'Outro idioma' ? 'Outro idioma: ' + idioma : recurso,
         local: fd.get('local'),
+        perfil: selectedProfile,
+        setor: routeSector('Apoio de comunicação', recurso),
         observacao: fd.get('observacao') || '',
         status: 'Profissional/setor responsável acionado',
         criadoEm: new Date().toLocaleString('pt-BR')
       };
       saveRequest(item);
       panel.innerHTML = successMarkup(item, 'Solicitação realizada');
+      panel.querySelector('.close-panel')?.addEventListener('click', closePanel);
+    });
+  }
+
+  if (view === 'adaptado') {
+    document.getElementById('adaptedForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.currentTarget);
+      const necessidades = fd.getAll('necessidade');
+      if (!necessidades.length) {
+        alert('Selecione ao menos uma necessidade.');
+        return;
+      }
+      const protocolo = nextProtocol();
+      const item = {
+        protocolo,
+        tipo: 'Atendimento adaptado',
+        recurso: necessidades.join(', '),
+        local: fd.get('local'),
+        perfil: selectedProfile,
+        setor: routeSector('Atendimento adaptado', necessidades.join(' ')),
+        observacao: fd.get('observacao') || '',
+        status: 'Necessidade registrada e equipe responsável acionada',
+        criadoEm: new Date().toLocaleString('pt-BR')
+      };
+      saveRequest(item);
+      panel.innerHTML = successMarkup(item, 'Necessidade registrada');
       panel.querySelector('.close-panel')?.addEventListener('click', closePanel);
     });
   }
@@ -80,6 +134,8 @@ function wirePanel(view) {
         tipo: 'Relato de barreira',
         recurso: fd.get('tipo'),
         local: fd.get('local'),
+        perfil: selectedProfile,
+        setor: routeSector('Relato de barreira', fd.get('tipo')),
         observacao: fd.get('relato'),
         status: 'Encaminhada ao setor responsável para avaliação',
         criadoEm: new Date().toLocaleString('pt-BR')
@@ -98,7 +154,7 @@ function wirePanel(view) {
       const item = requests.find(x => x.protocolo === protocol);
       const result = document.getElementById('trackingResult');
       result.innerHTML = item
-        ? `<div class="status-card"><h3>${item.protocolo}</h3><p><strong>Solicitação:</strong> ${escapeHtml(item.tipo)}</p><p><strong>Necessidade:</strong> ${escapeHtml(item.recurso)}</p><p><strong>Local:</strong> ${escapeHtml(item.local)}</p><p><strong>Status:</strong> 🟡 ${escapeHtml(item.status)}</p></div>`
+        ? `<div class="status-card"><h3>${item.protocolo}</h3><p><strong>Solicitação:</strong> ${escapeHtml(item.tipo)}</p><p><strong>Necessidade:</strong> ${escapeHtml(item.recurso)}</p><p><strong>Local:</strong> ${escapeHtml(item.local)}</p><p><strong>Setor responsável:</strong> ${escapeHtml(item.setor || 'Setor responsável')}</p><p><strong>Status:</strong> 🟡 ${escapeHtml(item.status)}</p></div>`
         : `<div class="status-card"><h3>Protocolo não localizado</h3><p>Confira o número informado. Para demonstração, crie primeiro uma solicitação neste dispositivo.</p></div>`;
     });
   }
@@ -110,6 +166,7 @@ function successMarkup(item, title) {
       <h3>${item.protocolo}</h3>
       <p>Sua solicitação foi registrada.</p>
       <p><strong>Local:</strong> ${escapeHtml(item.local)}</p>
+      <p><strong>Setor responsável:</strong> ${escapeHtml(item.setor || 'Setor responsável')}</p>
       <p><strong>Status:</strong> 🟡 ${escapeHtml(item.status)}</p>
       <p>Guarde este protocolo para acompanhar a solicitação.</p>
     </div>`;
@@ -129,6 +186,15 @@ document.querySelectorAll('[data-quick]').forEach(btn => {
     if (val === 'Barreira física') {
       openPanel('barreira');
       setTimeout(() => { const s = document.getElementById('tipoBarreira'); if (s) s.value = 'Acesso físico'; }, 0);
+    } else if (val === 'Baixa visão') {
+      openPanel('informacoes');
+    } else if (val === 'Leitura simples') {
+      simpleMode = true;
+      localStorage.setItem('simpleMode', 'true');
+      applyPreferences();
+      document.getElementById('conteudo').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (val === 'Atendimento adaptado' || val === 'Outra necessidade') {
+      openPanel('adaptado');
     } else {
       openPanel('comunicar');
       setTimeout(() => {
@@ -155,6 +221,20 @@ document.getElementById('contrastBtn').addEventListener('click', () => {
   contrast = !contrast;
   localStorage.setItem('highContrast', String(contrast));
   applyPreferences();
+});
+
+document.getElementById('simpleBtn').addEventListener('click', () => {
+  simpleMode = !simpleMode;
+  localStorage.setItem('simpleMode', String(simpleMode));
+  applyPreferences();
+});
+
+document.querySelectorAll('.profile-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    selectedProfile = btn.dataset.profile;
+    localStorage.setItem('selectedProfile', selectedProfile);
+    applyPreferences();
+  });
 });
 
 document.getElementById('speakBtn').addEventListener('click', () => {
