@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#0b5d66" />
   <meta name="description" content="Protótipo acadêmico de comunicação inclusiva para ambiente hospitalar." />
   <title>Acesso+ Hospital</title>
-  <link rel="manifest" href="manifest.webmanifest?v=2.3" />
+  <link rel="manifest" href="manifest.webmanifest?v=2.4" />
   <link rel="icon" href="icons/icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=2.3" />
+  <link rel="stylesheet" href="styles.css?v=2.4" />
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -31,6 +31,7 @@
       <button id="librasBtn" type="button">🤟 Libras</button>
       <button id="shareBtn" type="button">↗ Compartilhar</button>
       <button id="aboutBtn" type="button">ⓘ Conheça</button>
+      <button id="dashboardBtn" type="button">📊 Painel</button>
     </div>
   </header>
 
@@ -108,7 +109,7 @@
   </main>
 
   <footer class="site-footer" role="contentinfo">
-    <p><strong>Acesso+ Hospital</strong> · Protótipo acadêmico · Versão 2.3</p>
+    <p><strong>Acesso+ Hospital</strong> · Protótipo acadêmico · Versão 2.4</p>
     <p>PUC Minas · Pós-graduação em Comunicação Pública e Governamental</p>
     <p>Disciplina: Diversidade, Cidadania e Direitos · Trabalho Final · Outubro de 2026</p>
   </footer>
@@ -317,6 +318,60 @@
     <div id="trackingResult" class="result" aria-live="polite"></div>
   </template>
 
-  <script src="app.js?v=2.3" defer></script>
+
+  <dialog id="ratingDialog" class="wide-dialog compact-dialog" aria-labelledby="rating-title">
+    <div class="dialog-header">
+      <div>
+        <p class="eyebrow">Avaliação rápida</p>
+        <h2 id="rating-title">Como foi esta experiência?</h2>
+      </div>
+      <button id="closeRating" type="button" aria-label="Fechar">✕</button>
+    </div>
+    <p>Não informe nome, diagnóstico, telefone ou qualquer dado pessoal ou de saúde.</p>
+    <form id="ratingForm" class="form-stack">
+      <fieldset>
+        <legend>Você conseguiu registrar o que precisava?</legend>
+        <label><input type="radio" name="outcome" value="Sim" required> 😃 Sim</label>
+        <label><input type="radio" name="outcome" value="Parcialmente"> 😐 Parcialmente</label>
+        <label><input type="radio" name="outcome" value="Não"> ☹️ Não</label>
+      </fieldset>
+      <fieldset>
+        <legend>De 1 a 5, como você avalia o uso do Acesso+?</legend>
+        <div class="rating-row" role="radiogroup" aria-label="Nota de 1 a 5">
+          <label><input type="radio" name="rating" value="1" required><span>1</span></label>
+          <label><input type="radio" name="rating" value="2"><span>2</span></label>
+          <label><input type="radio" name="rating" value="3"><span>3</span></label>
+          <label><input type="radio" name="rating" value="4"><span>4</span></label>
+          <label><input type="radio" name="rating" value="5"><span>5</span></label>
+        </div>
+      </fieldset>
+      <button class="primary" type="submit">Enviar avaliação</button>
+    </form>
+  </dialog>
+
+  <dialog id="dashboardDialog" class="wide-dialog dashboard-dialog" aria-labelledby="dashboard-title">
+    <div class="dialog-header">
+      <div>
+        <p class="eyebrow">Demonstração acadêmica</p>
+        <h2 id="dashboard-title">Painel do Acesso+</h2>
+      </div>
+      <button id="closeDashboard" type="button" aria-label="Fechar">✕</button>
+    </div>
+    <div class="dashboard-meta">
+      <div><strong id="dashboardSession">Sessão de apresentação</strong><small id="dashboardStatus">Carregando…</small></div>
+      <div class="dashboard-actions">
+        <button id="refreshDashboard" class="secondary" type="button">↻ Atualizar</button>
+        <button id="showExampleData" class="secondary" type="button">Exibir exemplo</button>
+      </div>
+    </div>
+    <div class="privacy-callout" role="note">
+      O painel usa somente categorias da demonstração. Textos livres, nomes, diagnósticos, telefones e coordenadas de localização não são enviados ao painel compartilhado.
+    </div>
+    <div id="dashboardContent" aria-live="polite"></div>
+  </dialog>
+
+  <script src="config.js?v=2.4" defer></script>
+  <script src="app.js?v=2.4" defer></script>
+  <script src="live.js?v=2.4" defer></script>
 </body>
 </html>

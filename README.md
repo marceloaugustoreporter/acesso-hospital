@@ -57,3 +57,10 @@ O mesmo aplicativo pode ser divulgado com URLs diferentes para identificar o set
 Exemplo completo: `https://marceloaugustoreporter.github.io/acesso-hospital/?local=recepcao`
 
 O protótipo não envia chamados para equipes reais.
+
+
+## Versão 2.4 — painel coletivo de demonstração
+
+A versão 2.4 acrescenta pesquisa rápida de satisfação e um painel que pode consolidar, em tempo quase real, as interações feitas por diferentes celulares durante a apresentação. Para ativar o modo coletivo, siga `SUPABASE_SETUP.md` e preencha `config.js`. Sem Supabase, o aplicativo continua funcionando localmente e o painel oferece um conjunto de dados ilustrativos como contingência.
+
+Por privacidade, o painel compartilhado recebe somente categorias de uso e avaliação. Textos livres, dados de saúde e coordenadas GPS permanecem fora do banco de demonstração.
