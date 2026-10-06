@@ -73,3 +73,12 @@ Painel coletivo da versão 2.4 preparado para demonstração acadêmica com Supa
 Inclui identificação acadêmica completa, professora e integrantes do grupo, cronograma resumido, área de privacidade/LGPD, registro de uso dos recursos de acessibilidade no painel coletivo e sessão oficial `PUCMG-06102026`.
 
 Integrantes: Barbara Victoria Barbosa, Enzo Varini Tres, João Marcelo e Marcelo Augusto. Professora: Letícia Lins. Disciplina: Diversidade, Cidadania e Direitos — Pós-graduação em Comunicação Pública e Governamental, PUC Minas.
+
+
+## Versão 2.6 — painel separado dos usuários
+
+O painel de indicadores passa a ser tratado como ferramenta de gestão/apresentação.
+Ele fica oculto no link comum e só aparece quando a URL contém `painel=1`.
+
+- Participantes: `https://marceloaugustoreporter.github.io/acesso-hospital/?sessao=PUCMG-06102026`
+- Apresentadores: `https://marceloaugustoreporter.github.io/acesso-hospital/?sessao=PUCMG-06102026&painel=1`

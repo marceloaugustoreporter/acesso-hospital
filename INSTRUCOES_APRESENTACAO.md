@@ -1,20 +1,26 @@
-# Acesso+ Hospital — Apresentação Final
+# Acesso+ Hospital — Versão 2.6
 
-Versão: 2.5
-Sessão oficial: PUCMG-06102026
-Link oficial da demonstração:
+## Link para os colegas no chat do Meet
 https://marceloaugustoreporter.github.io/acesso-hospital/?sessao=PUCMG-06102026
 
-## Dinâmica sugerida em sala
-1. Exiba o QR Code `qr-acesso-hospital-apresentacao.png`.
-2. Peça aos colegas para fazerem 1 ou 2 interações curtas.
-3. Oriente a não informar nome, diagnóstico, telefone ou dado pessoal/saúde.
-4. Peça que testem também recursos de acessibilidade: aumento/redução de fonte, contraste, modo simples, leitura em voz alta ou Libras.
-5. Abra o botão `📊 Painel` no computador projetado.
-6. Mostre os indicadores ao vivo e diferencie resultados da demonstração das metas futuras do projeto.
-7. Se houver falha de internet, use `Exibir exemplo`.
+Neste endereço o botão do painel não aparece.
 
-## Limpar ensaios
+## Link exclusivo para os apresentadores
+https://marceloaugustoreporter.github.io/acesso-hospital/?sessao=PUCMG-06102026&painel=1
+
+Neste endereço aparece o botão `📊 Painel`, lendo os mesmos dados da sessão oficial.
+
+## Dinâmica sugerida
+1. Abra antes da apresentação o link exclusivo dos apresentadores.
+2. Envie apenas o link dos participantes no chat do Meet.
+3. Peça 1 ou 2 interações por pessoa.
+4. Oriente a não informar nome, diagnóstico, telefone ou dados pessoais/de saúde.
+5. Sugira testar contraste, fonte, modo simples, leitura em voz alta ou Libras.
+6. Depois abra `📊 Painel` no computador compartilhado.
+7. O painel atualiza automaticamente a cada 5 segundos.
+8. Se houver falha de internet, use `Exibir exemplo`.
+
+## Limpar a sessão de testes
 No SQL Editor do Supabase:
 
 ```sql

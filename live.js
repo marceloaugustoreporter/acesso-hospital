@@ -3,6 +3,7 @@
   const params = new URLSearchParams(window.location.search);
   const sessionCode = (params.get('sessao') || cfg.defaultSessionCode || 'PUCMG-06102026').slice(0, 40);
   const sessionLabel = cfg.defaultSessionLabel || sessionCode;
+  const dashboardMode = params.get('painel') === '1';
   const liveEnabled = Boolean(cfg.enabled && cfg.supabaseUrl && cfg.supabaseAnonKey && !String(cfg.supabaseUrl).includes('COLE_AQUI'));
   const apiBase = liveEnabled ? `${String(cfg.supabaseUrl).replace(/\/$/, '')}/rest/v1/acesso_events` : '';
   const commonHeaders = liveEnabled ? {
@@ -21,6 +22,13 @@
   let pendingRatingSource = '';
 
   if (dashboardSession) dashboardSession.textContent = `${sessionLabel} · sessão ${sessionCode}`;
+
+  // O painel é uma ferramenta de gestão/apresentação e fica oculto para usuários comuns.
+  const dashboardButton = document.getElementById('dashboardBtn');
+  if (dashboardButton) {
+    dashboardButton.hidden = !dashboardMode;
+    dashboardButton.setAttribute('aria-hidden', String(!dashboardMode));
+  }
 
   async function postEvent(data) {
     if (!liveEnabled) return false;
@@ -122,6 +130,7 @@
   });
 
   document.getElementById('dashboardBtn')?.addEventListener('click', () => {
+    if (!dashboardMode) return;
     exampleMode = false;
     dashboardDialog.showModal();
     loadDashboard();
