@@ -64,3 +64,5 @@ O protótipo não envia chamados para equipes reais.
 A versão 2.4 acrescenta pesquisa rápida de satisfação e um painel que pode consolidar, em tempo quase real, as interações feitas por diferentes celulares durante a apresentação. Para ativar o modo coletivo, siga `SUPABASE_SETUP.md` e preencha `config.js`. Sem Supabase, o aplicativo continua funcionando localmente e o painel oferece um conjunto de dados ilustrativos como contingência.
 
 Por privacidade, o painel compartilhado recebe somente categorias de uso e avaliação. Textos livres, dados de saúde e coordenadas GPS permanecem fora do banco de demonstração.
+
+Painel coletivo da versão 2.4 preparado para demonstração acadêmica com Supabase.
