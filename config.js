@@ -1,5 +1,5 @@
 /*
-  Configuração do painel coletivo - Acesso+ Hospital v2.4
+  Configuração do painel coletivo - Acesso+ Hospital v2.5
 
   A chave abaixo é a chave pública/publishable do Supabase,
   própria para uso no navegador.

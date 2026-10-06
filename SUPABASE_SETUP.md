@@ -1,4 +1,4 @@
-# Acesso+ Hospital v2.4 — ativar o painel coletivo ao vivo
+# Acesso+ Hospital v2.5 — ativar o painel coletivo ao vivo
 
 O aplicativo funciona normalmente sem banco compartilhado. Para a apresentação, o Supabase permite que os celulares da turma enviem categorias anônimas de uso e que o painel mostre os números em tempo quase real.
 
@@ -94,3 +94,15 @@ Somente categorias necessárias ao painel:
 - resposta Sim/Parcialmente/Não.
 
 O app NÃO envia ao painel compartilhado texto livre, nome, telefone, diagnóstico, observação clínica ou coordenadas GPS.
+
+
+## 7. Limpar a sessão de teste antes da apresentação
+
+No SQL Editor do Supabase, execute apenas se quiser apagar os registros de ensaio:
+
+```sql
+delete from public.acesso_events
+where session_code = 'TESTE';
+```
+
+Esse comando não altera a sessão oficial `PUCMG-06102026`.

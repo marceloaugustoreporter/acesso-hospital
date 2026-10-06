@@ -322,6 +322,7 @@ document.getElementById('requestInterpreter').addEventListener('click', () => {
 });
 
 const welcomeDialog = document.getElementById('welcomeDialog');
+const privacyDialog = document.getElementById('privacyDialog');
 const urgentDialog = document.getElementById('urgentDialog');
 const canonicalUrl = window.location.origin + window.location.pathname;
 
@@ -331,6 +332,8 @@ function openWelcome() {
 
 document.getElementById('aboutBtn').addEventListener('click', openWelcome);
 document.getElementById('closeWelcome').addEventListener('click', () => welcomeDialog.close());
+document.getElementById('privacyBtn')?.addEventListener('click', () => privacyDialog?.showModal());
+document.getElementById('closePrivacy')?.addEventListener('click', () => privacyDialog?.close());
 document.getElementById('startAppBtn').addEventListener('click', () => {
   localStorage.setItem('onboardingSeen', 'true');
   welcomeDialog.close();

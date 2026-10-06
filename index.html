@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#0b5d66" />
   <meta name="description" content="Protótipo acadêmico de comunicação inclusiva para ambiente hospitalar." />
   <title>Acesso+ Hospital</title>
-  <link rel="manifest" href="manifest.webmanifest?v=2.4" />
+  <link rel="manifest" href="manifest.webmanifest?v=2.5" />
   <link rel="icon" href="icons/icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=2.4" />
+  <link rel="stylesheet" href="styles.css?v=2.5" />
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -30,7 +30,7 @@
       <button id="speakBtn" type="button">🔊 Ouvir</button>
       <button id="librasBtn" type="button">🤟 Libras</button>
       <button id="shareBtn" type="button">↗ Compartilhar</button>
-      <button id="aboutBtn" type="button">ⓘ Conheça</button>
+      <button id="aboutBtn" type="button">ⓘ Sobre o projeto</button>
       <button id="dashboardBtn" type="button">📊 Painel</button>
     </div>
   </header>
@@ -109,9 +109,10 @@
   </main>
 
   <footer class="site-footer" role="contentinfo">
-    <p><strong>Acesso+ Hospital</strong> · Protótipo acadêmico · Versão 2.4</p>
+    <p><strong>Acesso+ Hospital</strong> · Protótipo acadêmico · Versão 2.5 — Apresentação Final</p>
     <p>PUC Minas · Pós-graduação em Comunicação Pública e Governamental</p>
-    <p>Disciplina: Diversidade, Cidadania e Direitos · Trabalho Final · Outubro de 2026</p>
+    <p>Disciplina: Diversidade, Cidadania e Direitos · Profa. Letícia Lins · Trabalho Final · Outubro de 2026</p>
+    <p class="footer-actions"><button id="privacyBtn" class="footer-link" type="button">🔒 Privacidade e proteção de dados</button></p>
   </footer>
 
   <dialog id="welcomeDialog" class="wide-dialog" aria-labelledby="welcome-title">
@@ -133,7 +134,45 @@
       <strong>Este projeto também é construído com quem utiliza o serviço.</strong>
       <p>Se encontrar uma dificuldade ou tiver uma ideia, use “Ajude a melhorar o Acesso+”.</p>
     </div>
+
+    <section class="academic-project-card" aria-labelledby="academic-project-title">
+      <p class="eyebrow">Trabalho Final</p>
+      <h3 id="academic-project-title">Sobre o projeto acadêmico</h3>
+      <p><strong>PUC Minas · Pós-graduação em Comunicação Pública e Governamental</strong></p>
+      <p>Disciplina: Diversidade, Cidadania e Direitos · Professora: Letícia Lins</p>
+      <div class="academic-meta">
+        <div><strong>Integrantes</strong><span>Barbara Victoria Barbosa · Enzo Varini Tres · João Marcelo · Marcelo Augusto</span></div>
+        <div><strong>Proposta</strong><span>Produto de comunicação inclusiva para reduzir barreiras de comunicação e acessibilidade em um hospital 100% SUS.</span></div>
+      </div>
+      <h4>Cronograma proposto</h4>
+      <ol class="project-timeline">
+        <li><strong>Nov/2026–Jan/2027</strong><span>Planejamento e desenvolvimento</span></li>
+        <li><strong>Fev–Mar/2027</strong><span>Piloto, testes de usabilidade e escuta dos públicos</span></li>
+        <li><strong>02/04/2027</strong><span>Lançamento oficial proposto</span></li>
+        <li><strong>Abr–Dez/2027</strong><span>Consolidação, monitoramento e avaliação</span></li>
+      </ol>
+    </section>
+
     <button id="startAppBtn" class="primary" type="button">Começar a usar</button>
+  </dialog>
+
+  <dialog id="privacyDialog" class="wide-dialog compact-dialog" aria-labelledby="privacy-title">
+    <div class="dialog-header">
+      <div>
+        <p class="eyebrow">Privacidade</p>
+        <h2 id="privacy-title">Proteção de dados na demonstração</h2>
+      </div>
+      <button id="closePrivacy" type="button" aria-label="Fechar">✕</button>
+    </div>
+    <div class="privacy-callout" role="note">
+      Este é um protótipo acadêmico. O painel coletivo recebe apenas categorias necessárias à demonstração e à geração de indicadores.
+    </div>
+    <div class="info-list">
+      <article><h3>O que pode ser enviado ao painel</h3><p>Sessão, tipo de interação, perfil escolhido, recurso solicitado, setor/local selecionado, prioridade, nota de 1 a 5 e resposta Sim/Parcialmente/Não.</p></article>
+      <article><h3>O que não é enviado</h3><p>Nome, telefone, diagnóstico, texto livre, observações clínicas e coordenadas de geolocalização não são enviados ao painel compartilhado.</p></article>
+      <article><h3>Geolocalização</h3><p>Quando autorizada no pedido prioritário, a localização é usada apenas no dispositivo para fins demonstrativos e não integra o relatório coletivo.</p></article>
+      <article><h3>Implantação real</h3><p>Uma versão institucional deverá adotar governança, segurança, finalidade definida, minimização de dados e demais requisitos aplicáveis da LGPD.</p></article>
+    </div>
   </dialog>
 
   <dialog id="urgentDialog" class="wide-dialog" aria-labelledby="urgent-title">
@@ -370,8 +409,8 @@
     <div id="dashboardContent" aria-live="polite"></div>
   </dialog>
 
-  <script src="config.js?v=2.4" defer></script>
-  <script src="app.js?v=2.4" defer></script>
-  <script src="live.js?v=2.4" defer></script>
+  <script src="config.js?v=2.5" defer></script>
+  <script src="app.js?v=2.5" defer></script>
+  <script src="live.js?v=2.5" defer></script>
 </body>
 </html>

@@ -66,3 +66,10 @@ A versão 2.4 acrescenta pesquisa rápida de satisfação e um painel que pode c
 Por privacidade, o painel compartilhado recebe somente categorias de uso e avaliação. Textos livres, dados de saúde e coordenadas GPS permanecem fora do banco de demonstração.
 
 Painel coletivo da versão 2.4 preparado para demonstração acadêmica com Supabase.
+
+
+## Versão 2.5 — Apresentação Final
+
+Inclui identificação acadêmica completa, professora e integrantes do grupo, cronograma resumido, área de privacidade/LGPD, registro de uso dos recursos de acessibilidade no painel coletivo e sessão oficial `PUCMG-06102026`.
+
+Integrantes: Barbara Victoria Barbosa, Enzo Varini Tres, João Marcelo e Marcelo Augusto. Professora: Letícia Lins. Disciplina: Diversidade, Cidadania e Direitos — Pós-graduação em Comunicação Pública e Governamental, PUC Minas.

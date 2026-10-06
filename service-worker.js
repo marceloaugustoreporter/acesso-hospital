@@ -1,11 +1,11 @@
-const CACHE = 'acesso-hospital-v2-4';
+const CACHE = 'acesso-hospital-v2-5';
 const CORE = [
   './index.html',
-  './styles.css?v=2.4',
-  './config.js?v=2.4',
-  './app.js?v=2.4',
-  './live.js?v=2.4',
-  './manifest.webmanifest?v=2.4',
+  './styles.css?v=2.5',
+  './config.js?v=2.5',
+  './app.js?v=2.5',
+  './live.js?v=2.5',
+  './manifest.webmanifest?v=2.5',
   './icons/icon-192.png',
   './icons/icon-512.png'
 ];

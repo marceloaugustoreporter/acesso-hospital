@@ -88,6 +88,7 @@
   // Uso de recursos de acessibilidade: contabiliza a ativação sem identificar a pessoa.
   const resourceButtons = {
     fontUp: 'Ampliação de fonte',
+    fontDown: 'Redução de fonte',
     contrastBtn: 'Alto contraste',
     simpleBtn: 'Modo simples',
     speakBtn: 'Leitura em voz alta',
