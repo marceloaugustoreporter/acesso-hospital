@@ -209,3 +209,82 @@ body.simple-mode .site-footer { font-size: .9rem; }
 @media (max-width: 760px) {
   .site-footer { padding-inline: 1.25rem; }
 }
+
+
+/* Versão 2.3: difusão, boas-vindas, colaboração e ajuda prioritária */
+.location-context {
+  background: #e8f4f5;
+  color: var(--text);
+  border-bottom: 1px solid var(--border);
+  padding: .75rem 1rem;
+  text-align: center;
+}
+.urgent-card {
+  border: 2px solid #b42318;
+  background: #fff7f6;
+}
+.urgent-card strong { color: #8f1d13; }
+.wide-dialog {
+  width: min(760px, calc(100% - 2rem));
+  max-height: min(88vh, 820px);
+  overflow: auto;
+  border: 0;
+  border-radius: 1rem;
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+  color: var(--text);
+  background: var(--surface);
+}
+.wide-dialog::backdrop { background: rgba(0,0,0,.58); }
+.welcome-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .8rem;
+  margin: 1rem 0;
+}
+.welcome-grid article {
+  border: 1px solid var(--border);
+  border-radius: .85rem;
+  padding: 1rem;
+  background: #f8fbfb;
+}
+.welcome-grid article > span { font-size: 1.7rem; }
+.welcome-grid h3 { margin: .4rem 0 .25rem; }
+.welcome-grid p { margin: 0; color: var(--muted); }
+.collab-callout, .safety-note, .geo-box {
+  border-radius: .8rem;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+.collab-callout { background: #eef8f3; border: 1px solid #b9ddca; }
+.collab-callout p { margin: .35rem 0 0; }
+.safety-note { background: #fff3f1; border: 1px solid #e8aaa4; color: #661b14; }
+.geo-box { background: #f8fbfb; border: 1px solid var(--border); }
+.helper-text { margin: .55rem 0 0; color: var(--muted); font-size: .9rem; }
+.danger-eyebrow { color: #a4261c !important; }
+.danger-button {
+  border: 2px solid #a4261c;
+  background: #a4261c;
+  color: #fff;
+  border-radius: .8rem;
+  min-height: 50px;
+  padding: .85rem 1rem;
+  font-weight: 850;
+}
+.urgent-status { border-color: #d66b62; }
+body.high-contrast .urgent-card,
+body.high-contrast .welcome-grid article,
+body.high-contrast .geo-box,
+body.high-contrast .wide-dialog { background: #000; }
+body.high-contrast .urgent-card strong,
+body.high-contrast .danger-eyebrow { color: #ffea00 !important; }
+body.high-contrast .danger-button { background: #ffea00; color: #000; border-color: #ffea00; }
+body.high-contrast .collab-callout,
+body.high-contrast .safety-note,
+body.high-contrast .location-context { background: #000; color: #fff; border-color: #fff; }
+body.simple-mode .location-context { font-size: 1.05rem; }
+
+@media (max-width: 760px) {
+  .welcome-grid { grid-template-columns: 1fr; }
+  .wide-dialog { width: calc(100% - 1rem); padding: 1rem; }
+}

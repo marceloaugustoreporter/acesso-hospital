@@ -2,6 +2,7 @@ const panel = document.getElementById('panel');
 const templates = {
   comunicar: document.getElementById('tpl-comunicar'),
   adaptado: document.getElementById('tpl-adaptado'),
+  feedback: document.getElementById('tpl-feedback'),
   barreira: document.getElementById('tpl-barreira'),
   informacoes: document.getElementById('tpl-informacoes'),
   acompanhar: document.getElementById('tpl-acompanhar')
@@ -11,7 +12,22 @@ let fontScale = Number(localStorage.getItem('fontScale') || '1');
 let contrast = localStorage.getItem('highContrast') === 'true';
 let simpleMode = localStorage.getItem('simpleMode') === 'true';
 let selectedProfile = localStorage.getItem('selectedProfile') || 'Usuário ou acompanhante';
+let gpsLocation = null;
+const sectorMap = {
+  'recepcao': 'Recepção',
+  'recepcao-principal': 'Recepção',
+  'pronto-atendimento': 'Pronto Atendimento',
+  'pa': 'Pronto Atendimento',
+  'internacao': 'Internação',
+  'ambulatorio': 'Ambulatório',
+  'exames': 'Exames'
+};
+const params = new URLSearchParams(window.location.search);
+const sectorSlug = (params.get('local') || '').toLowerCase().trim();
+const sectorFromQr = sectorMap[sectorSlug] || '';
 applyPreferences();
+renderLocationContext();
+
 
 function applyPreferences() {
   document.documentElement.style.setProperty('--font-scale', fontScale.toFixed(2));
@@ -24,6 +40,25 @@ function applyPreferences() {
   });
 }
 
+function renderLocationContext() {
+  const box = document.getElementById('locationContext');
+  if (!box || !sectorFromQr) return;
+  box.hidden = false;
+  box.innerHTML = `<strong>📍 Local identificado pelo QR Code:</strong> ${escapeHtml(sectorFromQr)}. Você pode alterar o local no formulário, se necessário.`;
+}
+
+function prefillLocationFields() {
+  if (!sectorFromQr) return;
+  ['local', 'localAdaptado', 'urgentLocal'].forEach(id => {
+    const field = document.getElementById(id);
+    if (!field) return;
+    const option = [...field.options].find(o => o.text === sectorFromQr || o.value === sectorFromQr);
+    if (option) field.value = option.value || option.text;
+  });
+  const barrier = document.getElementById('localBarreira');
+  if (barrier && !barrier.value) barrier.value = sectorFromQr;
+}
+
 function openPanel(view) {
   const tpl = templates[view];
   if (!tpl) return;
@@ -32,6 +67,7 @@ function openPanel(view) {
   panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
   panel.querySelector('h2')?.focus?.();
   wirePanel(view);
+  prefillLocationFields();
 }
 
 function closePanel() {
@@ -142,6 +178,30 @@ function wirePanel(view) {
       };
       saveRequest(item);
       panel.innerHTML = successMarkup(item, 'Relato enviado');
+      panel.querySelector('.close-panel')?.addEventListener('click', closePanel);
+    });
+  }
+
+  if (view === 'feedback') {
+    document.getElementById('feedbackForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.currentTarget);
+      const key = 'feedbackCounter';
+      const n = Number(localStorage.getItem(key) || '0') + 1;
+      localStorage.setItem(key, String(n));
+      const protocolo = `FB-2026-${String(n).padStart(4, '0')}`;
+      const feedbacks = JSON.parse(localStorage.getItem('feedbacks') || '[]');
+      feedbacks.push({
+        protocolo,
+        tipo: fd.get('tipo'),
+        relato: fd.get('relato'),
+        perfil: selectedProfile,
+        local: sectorFromQr || 'Não informado',
+        criadoEm: new Date().toLocaleString('pt-BR')
+      });
+      localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+      panel.innerHTML = `<div class="panel-header"><div><p class="eyebrow">Obrigado</p><h2>Contribuição registrada</h2></div><button class="close-panel" type="button">Fechar</button></div>
+        <div class="status-card"><h3>${protocolo}</h3><p>Sua sugestão foi registrada neste protótipo. Em uma implantação real, ela seria encaminhada à equipe responsável pela melhoria do serviço.</p></div>`;
       panel.querySelector('.close-panel')?.addEventListener('click', closePanel);
     });
   }
@@ -259,6 +319,100 @@ document.getElementById('requestInterpreter').addEventListener('click', () => {
     const radio = [...document.querySelectorAll('input[name="recurso"]')].find(r => r.value === 'Libras');
     if (radio) radio.checked = true;
   }, 0);
+});
+
+const welcomeDialog = document.getElementById('welcomeDialog');
+const urgentDialog = document.getElementById('urgentDialog');
+const canonicalUrl = window.location.origin + window.location.pathname;
+
+function openWelcome() {
+  welcomeDialog.showModal();
+}
+
+document.getElementById('aboutBtn').addEventListener('click', openWelcome);
+document.getElementById('closeWelcome').addEventListener('click', () => welcomeDialog.close());
+document.getElementById('startAppBtn').addEventListener('click', () => {
+  localStorage.setItem('onboardingSeen', 'true');
+  welcomeDialog.close();
+});
+
+if (localStorage.getItem('onboardingSeen') !== 'true') {
+  window.addEventListener('load', () => setTimeout(openWelcome, 250), { once: true });
+}
+
+document.getElementById('shareBtn').addEventListener('click', async () => {
+  const data = {
+    title: 'Acesso+ Hospital',
+    text: 'Conheça o Acesso+ Hospital, protótipo de comunicação inclusiva e acessibilidade.',
+    url: canonicalUrl
+  };
+  try {
+    if (navigator.share) {
+      await navigator.share(data);
+    } else if (navigator.clipboard) {
+      await navigator.clipboard.writeText(canonicalUrl);
+      alert('Link copiado. Agora você pode compartilhá-lo.');
+    } else {
+      prompt('Copie o link para compartilhar:', canonicalUrl);
+    }
+  } catch (err) {
+    if (err && err.name !== 'AbortError') alert('Não foi possível compartilhar neste navegador.');
+  }
+});
+
+document.getElementById('urgentHelpBtn').addEventListener('click', () => {
+  gpsLocation = null;
+  document.getElementById('geoStatus').textContent = 'Dentro de prédios, a localização pode ser imprecisa. O QR Code do setor é a referência preferencial.';
+  urgentDialog.showModal();
+  prefillLocationFields();
+});
+document.getElementById('closeUrgent').addEventListener('click', () => urgentDialog.close());
+
+document.getElementById('geoBtn').addEventListener('click', () => {
+  const status = document.getElementById('geoStatus');
+  if (!navigator.geolocation) {
+    status.textContent = 'Este navegador não oferece geolocalização.';
+    return;
+  }
+  status.textContent = 'Solicitando sua permissão de localização…';
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      gpsLocation = {
+        lat: Number(pos.coords.latitude.toFixed(5)),
+        lon: Number(pos.coords.longitude.toFixed(5)),
+        accuracy: Math.round(pos.coords.accuracy)
+      };
+      status.textContent = `Localização aproximada registrada (precisão informada pelo dispositivo: ±${gpsLocation.accuracy} m).`;
+    },
+    () => { status.textContent = 'Localização não autorizada ou indisponível. Você pode continuar sem ela.'; },
+    { enableHighAccuracy: false, timeout: 8000, maximumAge: 60000 }
+  );
+});
+
+document.getElementById('urgentForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const fd = new FormData(e.currentTarget);
+  const protocolo = nextProtocol();
+  const item = {
+    protocolo,
+    tipo: 'Pedido prioritário de ajuda',
+    recurso: fd.get('tipo'),
+    local: fd.get('local'),
+    perfil: selectedProfile,
+    setor: 'Atendimento / Acolhimento',
+    prioridade: 'Imediata',
+    gps: gpsLocation,
+    observacao: fd.get('observacao') || '',
+    status: 'Solicitação prioritária registrada no protótipo',
+    criadoEm: new Date().toLocaleString('pt-BR')
+  };
+  saveRequest(item);
+  urgentDialog.close();
+  panel.hidden = false;
+  panel.innerHTML = `<div class="panel-header"><div><p class="eyebrow danger-eyebrow">Prioridade imediata</p><h2>Pedido registrado</h2></div><button class="close-panel" type="button">Fechar</button></div>
+    <div class="status-card urgent-status"><h3>${item.protocolo}</h3><p><strong>Local:</strong> ${escapeHtml(item.local)}</p><p><strong>Prioridade:</strong> 🔴 Imediata</p><p><strong>Setor demonstrativo:</strong> ${escapeHtml(item.setor)}</p><p><strong>Atenção:</strong> este protótipo não envia a solicitação para uma equipe real.</p></div>`;
+  panel.querySelector('.close-panel')?.addEventListener('click', closePanel);
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
 });
 
 if ('serviceWorker' in navigator) {

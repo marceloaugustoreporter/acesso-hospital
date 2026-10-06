@@ -38,3 +38,22 @@ Versão atual: 2.1 — inclui identificação acadêmica no rodapé do aplicativ
 
 ## Atualização de cache (2.2)
 A versão 2.2 usa atualização imediata do service worker e estratégia network-first para impedir que versões antigas permaneçam presas no cache do navegador após uma nova publicação no GitHub Pages.
+
+
+## Versão 2.3
+
+Inclui compartilhamento nativo do link, apresentação de boas-vindas, canal colaborativo de sugestões, pedido prioritário demonstrativo de ajuda, localização de setor por parâmetro de QR Code e geolocalização opcional mediante autorização do usuário.
+
+### QR Codes por setor
+
+O mesmo aplicativo pode ser divulgado com URLs diferentes para identificar o setor de origem. Exemplos:
+
+- `?local=recepcao`
+- `?local=pronto-atendimento`
+- `?local=ambulatorio`
+- `?local=internacao`
+- `?local=exames`
+
+Exemplo completo: `https://marceloaugustoreporter.github.io/acesso-hospital/?local=recepcao`
+
+O protótipo não envia chamados para equipes reais.

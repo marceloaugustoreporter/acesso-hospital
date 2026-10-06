@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#0b5d66" />
   <meta name="description" content="Protótipo acadêmico de comunicação inclusiva para ambiente hospitalar." />
   <title>Acesso+ Hospital</title>
-  <link rel="manifest" href="manifest.webmanifest?v=2.2" />
+  <link rel="manifest" href="manifest.webmanifest?v=2.3" />
   <link rel="icon" href="icons/icon-192.png" />
-  <link rel="stylesheet" href="styles.css?v=2.2" />
+  <link rel="stylesheet" href="styles.css?v=2.3" />
 </head>
 <body>
   <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
@@ -29,12 +29,16 @@
       <button id="simpleBtn" type="button" aria-pressed="false">☰ Modo simples</button>
       <button id="speakBtn" type="button">🔊 Ouvir</button>
       <button id="librasBtn" type="button">🤟 Libras</button>
+      <button id="shareBtn" type="button">↗ Compartilhar</button>
+      <button id="aboutBtn" type="button">ⓘ Conheça</button>
     </div>
   </header>
 
   <div class="academic-note" role="note">
     Protótipo acadêmico demonstrativo. Não substitui atendimento profissional ou interpretação especializada em situações clínicas.
   </div>
+
+  <div id="locationContext" class="location-context" role="status" hidden></div>
 
   <main id="conteudo" tabindex="-1">
     <section class="hero" aria-labelledby="hero-title">
@@ -51,6 +55,11 @@
     </section>
 
     <section class="action-grid" aria-label="Ações principais">
+      <button class="action-card urgent-card" id="urgentHelpBtn" type="button">
+        <span class="icon" aria-hidden="true">🆘</span>
+        <span><strong>Preciso de ajuda agora</strong><small>Registre uma solicitação prioritária de apoio dentro do hospital</small></span>
+      </button>
+
       <button class="action-card" data-view="comunicar" type="button">
         <span class="icon" aria-hidden="true">🤟</span>
         <span><strong>Preciso me comunicar</strong><small>Libras, texto, áudio ou outro idioma</small></span>
@@ -69,6 +78,11 @@
       <button class="action-card" data-view="informacoes" type="button">
         <span class="icon" aria-hidden="true">🔊</span>
         <span><strong>Informações acessíveis</strong><small>Orientações em linguagem simples e formatos acessíveis</small></span>
+      </button>
+
+      <button class="action-card" data-view="feedback" type="button">
+        <span class="icon" aria-hidden="true">💡</span>
+        <span><strong>Ajude a melhorar o Acesso+</strong><small>Envie uma sugestão sobre acessibilidade ou sobre o próprio aplicativo</small></span>
       </button>
 
       <button class="action-card" data-view="acompanhar" type="button">
@@ -94,10 +108,73 @@
   </main>
 
   <footer class="site-footer" role="contentinfo">
-    <p><strong>Acesso+ Hospital</strong> · Protótipo acadêmico · Versão 2.2</p>
+    <p><strong>Acesso+ Hospital</strong> · Protótipo acadêmico · Versão 2.3</p>
     <p>PUC Minas · Pós-graduação em Comunicação Pública e Governamental</p>
     <p>Disciplina: Diversidade, Cidadania e Direitos · Trabalho Final · Outubro de 2026</p>
   </footer>
+
+  <dialog id="welcomeDialog" class="wide-dialog" aria-labelledby="welcome-title">
+    <div class="dialog-header">
+      <div>
+        <p class="eyebrow">Bem-vindo</p>
+        <h2 id="welcome-title">Conheça o Acesso+ Hospital</h2>
+      </div>
+      <button id="closeWelcome" type="button" aria-label="Fechar">✕</button>
+    </div>
+    <p>O Acesso+ é um protótipo acadêmico criado para reduzir barreiras de comunicação e acessibilidade no ambiente hospitalar.</p>
+    <div class="welcome-grid">
+      <article><span aria-hidden="true">🤟</span><h3>Peça apoio</h3><p>Solicite Libras, outro idioma, comunicação por texto, áudio ou outros recursos.</p></article>
+      <article><span aria-hidden="true">🤝</span><h3>Informe necessidades</h3><p>Registre adaptações sensoriais ou de comunicação que possam facilitar o atendimento.</p></article>
+      <article><span aria-hidden="true">♿</span><h3>Relate barreiras</h3><p>Ajude o hospital a identificar dificuldades físicas, tecnológicas, informacionais ou de atendimento.</p></article>
+      <article><span aria-hidden="true">✅</span><h3>Acompanhe</h3><p>Receba um protocolo e consulte o encaminhamento da sua solicitação neste dispositivo.</p></article>
+    </div>
+    <div class="collab-callout">
+      <strong>Este projeto também é construído com quem utiliza o serviço.</strong>
+      <p>Se encontrar uma dificuldade ou tiver uma ideia, use “Ajude a melhorar o Acesso+”.</p>
+    </div>
+    <button id="startAppBtn" class="primary" type="button">Começar a usar</button>
+  </dialog>
+
+  <dialog id="urgentDialog" class="wide-dialog" aria-labelledby="urgent-title">
+    <div class="dialog-header">
+      <div>
+        <p class="eyebrow danger-eyebrow">Atendimento prioritário</p>
+        <h2 id="urgent-title">Preciso de ajuda agora</h2>
+      </div>
+      <button id="closeUrgent" type="button" aria-label="Fechar">✕</button>
+    </div>
+    <div class="safety-note" role="note">
+      Este protótipo não aciona uma equipe real. Em uma implantação institucional, este recurso deverá ser integrado ao sistema interno de chamados. Em uma emergência clínica, procure imediatamente a equipe do hospital e use os canais oficiais de urgência.
+    </div>
+    <form id="urgentForm" class="form-stack">
+      <label for="urgentType">Que tipo de ajuda você precisa?</label>
+      <select id="urgentType" name="tipo" required>
+        <option value="">Selecione</option>
+        <option>Dificuldade para me comunicar</option>
+        <option>Dificuldade de mobilidade ou acesso</option>
+        <option>Estou desorientado(a) e preciso de apoio</option>
+        <option>Necessidade sensorial ou de acolhimento</option>
+        <option>Outra necessidade imediata</option>
+      </select>
+      <label for="urgentLocal">Onde você está?</label>
+      <select id="urgentLocal" name="local" required>
+        <option value="">Selecione</option>
+        <option>Pronto Atendimento</option>
+        <option>Internação</option>
+        <option>Ambulatório</option>
+        <option>Exames</option>
+        <option>Recepção</option>
+        <option>Outro setor</option>
+      </select>
+      <div class="geo-box">
+        <button id="geoBtn" class="secondary" type="button">📍 Usar localização do dispositivo (opcional)</button>
+        <p id="geoStatus" class="helper-text">Dentro de prédios, a localização pode ser imprecisa. O QR Code do setor é a referência preferencial.</p>
+      </div>
+      <label for="urgentObs">Quer acrescentar alguma informação?</label>
+      <textarea id="urgentObs" name="observacao" rows="3" placeholder="Opcional"></textarea>
+      <button class="danger-button" type="submit">Registrar pedido prioritário</button>
+    </form>
+  </dialog>
 
   <dialog id="librasDialog" aria-labelledby="libras-title">
     <div class="dialog-header">
@@ -211,6 +288,25 @@
     </div>
   </template>
 
+  <template id="tpl-feedback">
+    <div class="panel-header"><div><p class="eyebrow">Construção colaborativa</p><h2>Ajude a melhorar o Acesso+</h2></div><button class="close-panel" type="button">Fechar</button></div>
+    <p>Quem utiliza o hospital pode ajudar a identificar barreiras e aprimorar este canal.</p>
+    <form id="feedbackForm" class="form-stack">
+      <label for="feedbackType">Sobre o que você quer falar?</label>
+      <select id="feedbackType" name="tipo" required>
+        <option value="">Selecione</option>
+        <option>Sugestão para o aplicativo</option>
+        <option>Dificuldade para usar o aplicativo</option>
+        <option>Sugestão de acessibilidade no hospital</option>
+        <option>Recurso que deveria ser incluído</option>
+        <option>Outro</option>
+      </select>
+      <label for="feedbackText">Conte sua ideia ou dificuldade</label>
+      <textarea id="feedbackText" name="relato" rows="5" required placeholder="Escreva de forma simples"></textarea>
+      <button class="primary" type="submit">Enviar contribuição</button>
+    </form>
+  </template>
+
   <template id="tpl-acompanhar">
     <div class="panel-header"><div><p class="eyebrow">Acompanhamento</p><h2>Consultar solicitação</h2></div><button class="close-panel" type="button">Fechar</button></div>
     <form id="trackingForm" class="form-stack">
@@ -221,6 +317,6 @@
     <div id="trackingResult" class="result" aria-live="polite"></div>
   </template>
 
-  <script src="app.js?v=2.2" defer></script>
+  <script src="app.js?v=2.3" defer></script>
 </body>
 </html>
